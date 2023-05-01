@@ -14,7 +14,7 @@ export default function Layout({ children }: PropsWithChildren) {
                     <strong className={styles.myName}>Lawrence Job</strong>
                     <hr className={styles.hr} />
                     <nav className={styles.nav}>
-                        <div>I'm working on a new website right now.</div>
+                        <div>I&apos;m working on a new website right now.</div>
                         {/* <Link href="/">Homepage</Link>
                         <Link href="/">About me</Link>
                         <Link href="/">Find me</Link>
