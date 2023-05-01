@@ -1,0 +1,58 @@
+.background,
+.foreground,
+.canvas {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: none;
+}
+
+.background {
+    background-color: black;
+    background-image: radial-gradient(#ffffff78, #ffffff3d);
+    animation: colorChange 5s infinite;
+    opacity: 0.5;
+    z-index: -30;
+}
+
+@keyframes posChange {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 50% 80%;
+    }
+
+    100% {
+        background-position: 80% 0%;
+    }
+}
+
+@keyframes colorChange {
+    0% {
+        background: radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #ffb3ff 8%, #ff33ff 25%, #800080 62.5%, #b300b3 100%)
+    }
+
+    50% {
+        background: radial-gradient(ellipse farthest-corner at top, #FFFFFF 0%, #ffb3ff 8%, #ff33ff 25%, #800080 62.5%, #b300b3 100%)
+    }
+
+    100% {
+        background: radial-gradient(ellipse farthest-corner at right top, #FFFFFF 0%, #ffb3ff 8%, #ff33ff 25%, #800080 62.5%, #b300b3 100%)
+    }
+}
+
+.canvas {
+    z-index: -20;
+}
+
+.foreground {
+    background-image: linear-gradient(black 10px, transparent 10px), linear-gradient(to right, black 6px, transparent 6px);
+    background-size: 11px 11px;
+    z-index: -10;
+}
