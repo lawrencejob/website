@@ -23,7 +23,6 @@ export default function Backdrop({ }) {
         const onPointerMove = (e: PointerEvent) => {
 
             // pick up the mouse coordinates
-            console.log('has no existing');
             setMouse([e.clientX, e.clientY, new Date()]);
 
             // look for any elements behind the cursor
@@ -41,9 +40,11 @@ export default function Backdrop({ }) {
         return () => {
             window.removeEventListener("pointermove", onPointerMove);
         }
-    });
+    }, []);
 
     const render = useCallback(() => {
+
+        const frameTime = new Date().getTime();
 
         // establish a drawing context
         const canvas = canvasRef.current;
@@ -55,28 +56,25 @@ export default function Backdrop({ }) {
         const [x, y] = windowScaleFactors(window, canvas);
 
         // generate some horizontal noise based on the time
-        const windX = Math.sin(new Date().getTime() / 400) * 2;
-        const windY = Math.sin(new Date().getTime() / 1100) * 2;
+        const windX = Math.sin(frameTime / 400) / 10;
+        const windY = Math.sin(frameTime / 1100) / 10;
 
         // move a blurry version of what was previously on the canvas but slightly higher
         ctx.filter = "blur(2px)";
-        ctx.drawImage(canvas, windX / x, (windY - 0.1) / y);
+        ctx.drawImage(canvas, windX * x, (windY - 0.1) * y);
         ctx.filter = "none";
 
         // dim what is currently on the screen rather than replacing it (fades exponentially)
-        ctx.fillStyle = "rgba(20,20,20,0.05)";
+        ctx.fillStyle = "rgba(0,0,0,0.05)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // if the mouse has moved recently, draw a circle
-        if (mouse && new Date().getTime() - 200 < mouse[2].getTime()) {
+        if (mouse && frameTime - 200 < mouse[2].getTime()) {
 
-            const [mX, mY, mDate] = mouse;
-
-            const mouseAge = new Date().getTime() - mDate.getTime();
-
+            // const mouseAge = frameTime - mDate.getTime();
             ctx.fillStyle = `rgba(255, 225, 58, 1)`;
             ctx.beginPath();
-            ctx.ellipse(mX / x, mY / y, 20 / x, 20 / y, 0, 0, Math.PI * 2);
+            ctx.ellipse(mouse[0] / x, mouse[1] / y, 20 / x, 20 / y, 0, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -89,13 +87,25 @@ export default function Backdrop({ }) {
             ctx.fillRect(eX / x, eY / y, width / x, height / y);
         }
 
+        const dreamColors = [
+            'rgba(255,255,255,0)',
+            'rgba(255,255,255,0.01)',
+            'rgba(255,255,255,0.02)',
+            'rgba(255,255,255,0.03)',
+            'rgba(255,255,255,0.04)',
+        ]
+
+        const time = frameTime / 1_0000 % 1_000;
+
         // add noise to the screen
         const noise = noise3d.current;
-        for (var i = 0; i < canvas.clientWidth / 20; i++) {
-            for (var j = 0; j < canvas.clientHeight / 20; j++) {
-                const opacity = (noise(i / 20, j / 20, new Date().getTime() / 1_0000 % 1_000) + 1) * 0.01;
-                ctx.fillStyle = `rgba(255,255,255,${opacity})`;
-                ctx.fillRect(i * 20, j * 20, 20, 20);
+        for (var i = 0; i < canvas.width / 20; i++) {
+            for (var j = 0; j < canvas.height / 20; j++) {
+                const n = Math.floor((noise(i / 20, j / 20, time) + 1) * 2.5);
+                if (n != 0) {
+                    ctx.fillStyle = dreamColors[n];
+                    ctx.fillRect(i * 20, j * 20, 20, 20);
+                }
             }
         }
 
