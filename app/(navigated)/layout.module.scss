@@ -1,15 +1,24 @@
 $yellow: #ffe13a;
 
-.layout {
-    display: grid;
-    grid-template-columns: 300px auto;
-    grid-template-areas: "nav main";
-    min-height: 100vh;
+@media screen and (min-width: 700px) {
+    .layout {
+        display: grid;
+        grid-template-columns: 300px auto;
+        grid-template-areas: "nav main";
+        min-height: 100vh;
 
-    >div {
-        padding: 16px;
+        >.nav {
+            padding: 16px;
+
+            .sticky {
+                position: sticky;
+                top: 16px;
+            }
+        }
     }
 }
+
+
 
 strong.myName {
     display: block;
