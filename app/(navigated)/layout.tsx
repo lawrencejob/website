@@ -3,6 +3,7 @@ import styles from "./layout.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import Backdrop from "./Backdrop";
+import { LinkSection } from "./LinkSection";
 
 export default function Layout({ children }: PropsWithChildren) {
     return (
