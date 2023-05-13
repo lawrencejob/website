@@ -18,7 +18,7 @@ main.main {
 
         >* {
 
-            animation: entry-from-right 1s ease-in-out 0.3s 1 backwards;
+            animation: entry-from-right 1s ease-in-out 0s 1 backwards;
         }
 
         h1 {
@@ -29,7 +29,7 @@ main.main {
             margin: 80px 0 20px;
             padding: 10px 0;
 
-            animation: entry-from-left 1.0s ease-in-out 0s 1;
+            animation: entry-from-left 0.5s ease-in-out 0s 1 backwards;
         }
 
         h2 {
@@ -38,7 +38,7 @@ main.main {
             font-weight: normal;
             margin: 40px 0 20px 0;
 
-            animation: entry-from-left 1.0s ease-in-out 0s 1;
+            animation: entry-from-left 0.5s ease-in-out 0s 1 backwards;
         }
 
         p {

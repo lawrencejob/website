@@ -9,19 +9,25 @@ export default function Layout({ children }: PropsWithChildren) {
         <>
             <Backdrop />
             <div className={styles.layout}>
-                <div>
-                    <Image className={styles.logo} alt="Job logo" src="/job-logo.svg" width={96} height={96}></Image>
-                    <strong className={styles.myName}>Lawrence Job</strong>
-                    <hr className={styles.hr} />
-                    <nav className={styles.nav}>
-                        <div>I&apos;m working on a new website right now.</div>
-                        {/* <Link href="/">Homepage</Link>
-                        <Link href="/">About me</Link>
-                        <Link href="/">Find me</Link>
-                        <Link href="/">Homepage</Link> */}
-                    </nav>
+                <div className={styles.nav}>
+                    <div className={styles.sticky}>
+                        <Link href="/" className={styles.homeLink}>
+                            <Image className={styles.logo} alt="Job logo" src="/job-logo.svg" width={64} height={64} />
+                            <strong className={styles.myName}>Lawrence Job</strong>
+                            <hr className={styles.hr} />
+                        </Link>
+                        <nav className={styles.nav}>
+                            <LinkSection>
+                                <div>I&apos;m working on a new website right now.</div>
+                            </LinkSection>
+                            <LinkSection startsWith="/works" title="Projects">
+                                <Link href="/works/situ">SITU</Link>
+                                <Link href="/works/this">lawrencejob.com</Link>
+                            </LinkSection>
+                        </nav>
+                    </div>
                 </div>
-                <div>{children}</div>
+                {children}
             </div>
         </>
     )
