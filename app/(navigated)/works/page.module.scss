@@ -16,6 +16,11 @@ main.main {
         margin: 0 auto;
         padding-top: 80px;
 
+        >* {
+
+            animation: entry-from-right 1s ease-in-out 0.3s 1 backwards;
+        }
+
         h1 {
             font-size: 36px;
             font-weight: normal;
@@ -23,6 +28,8 @@ main.main {
             border-bottom: 1px dashed gray;
             margin: 80px 0 20px;
             padding: 10px 0;
+
+            animation: entry-from-left 1.0s ease-in-out 0s 1;
         }
 
         h2 {
@@ -30,12 +37,15 @@ main.main {
             color: #ffe13a;
             font-weight: normal;
             margin: 40px 0 20px 0;
+
+            animation: entry-from-left 1.0s ease-in-out 0s 1;
         }
 
         p {
             font-size: 16px;
             line-height: 1.8em;
             margin: 20px 0;
+
         }
 
         table {
@@ -58,5 +68,29 @@ main.main {
                 border-top: none;
             }
         }
+    }
+}
+
+@keyframes entry-from-left {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes entry-from-right {
+    from {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }
