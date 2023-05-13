@@ -5,6 +5,8 @@ import styles from "./backdrop.module.scss";
 import useAnimationFrame from "@/utils/use-animation-frame";
 
 import { createNoise3D } from 'simplex-noise';
+import { usePathname } from "next/navigation";
+import { useThrottle } from "react-use";
 
 function windowScaleFactors(window: Window, canvas: HTMLCanvasElement): [number, number] {
     return [window.innerWidth / canvas.width, window.innerHeight / canvas.height];
@@ -14,7 +16,10 @@ export default function Backdrop({ }) {
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const pathname = usePathname();
+
     const [mouse, setMouse] = useState<[number, number, Date] | null>(null);
+    const debouncedMouse = useThrottle(mouse, 10);
     const [elementOfInterest, setElementOfInterest] = useState<Element | null>(null);
 
     const noise3d = useRef(createNoise3D());
@@ -27,7 +32,7 @@ export default function Backdrop({ }) {
 
             // look for any elements behind the cursor
             const elementOfInterest = document.elementsFromPoint(e.clientX, e.clientY)
-                .find(x => x instanceof HTMLAnchorElement || x instanceof HTMLButtonElement);
+                .find(x => x instanceof HTMLAnchorElement || x instanceof HTMLButtonElement || x.nodeName === "SMALL");
 
             if (elementOfInterest) {
                 setElementOfInterest(elementOfInterest);
@@ -69,12 +74,12 @@ export default function Backdrop({ }) {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // if the mouse has moved recently, draw a circle
-        if (mouse && frameTime - 200 < mouse[2].getTime()) {
+        if (debouncedMouse && frameTime - 200 < debouncedMouse[2].getTime()) {
 
             // const mouseAge = frameTime - mDate.getTime();
             ctx.fillStyle = `rgba(255, 225, 58, 1)`;
             ctx.beginPath();
-            ctx.ellipse(mouse[0] / x, mouse[1] / y, 20 / x, 20 / y, 0, 0, Math.PI * 2);
+            ctx.ellipse(debouncedMouse[0] / x, debouncedMouse[1] / y, 20 / x, 20 / y, 0, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -83,33 +88,41 @@ export default function Backdrop({ }) {
             ctx.fillStyle = '#ffe13a';
             ctx.beginPath();
             //ctx.rect(mouse[0] / x, mouse[1] / y, 100 / x, 100 / y);
-            const { x: eX, y: eY, width, height } = elementOfInterest.getBoundingClientRect();
-            ctx.fillRect(eX / x, eY / y, width / x, height / y);
+            const rects = elementOfInterest.getClientRects();
+            for (const rect of rects) {
+                const { x: eX, y: eY, width, height } = rect;
+                ctx.fillRect(eX / x, eY / y, width / x, height / y);
+            }
+
         }
 
         const dreamColors = [
-            'rgba(255,255,255,0)',
+            'rgba(255,255,255,0.005)',
             'rgba(255,255,255,0.01)',
             'rgba(255,255,255,0.02)',
             'rgba(255,255,255,0.03)',
-            'rgba(255,255,255,0.04)',
+            'rgba(255,255,255,0.05)',
         ]
 
         const time = frameTime / 1_0000 % 1_000;
 
-        // add noise to the screen
-        const noise = noise3d.current;
-        for (var i = 0; i < canvas.width / 20; i++) {
-            for (var j = 0; j < canvas.height / 20; j++) {
-                const n = Math.floor((noise(i / 20, j / 20, time) + 1) * 2.5);
-                if (n != 0) {
-                    ctx.fillStyle = dreamColors[n];
-                    ctx.fillRect(i * 20, j * 20, 20, 20);
+        if (pathname == "/") {
+
+            // add noise to the screen
+            const noise = noise3d.current;
+            for (var i = 0; i < canvas.width / 20; i++) {
+                for (var j = 0; j < canvas.height / 20; j++) {
+                    const n = Math.floor((noise(i / 20, j / 20, time) + 1) * 2.5);
+                    if (n != 0) {
+                        ctx.fillStyle = dreamColors[n];
+                        ctx.fillRect(i * 20, j * 20, 20, 20);
+                    }
                 }
             }
+
         }
 
-    }, [mouse, elementOfInterest]);
+    }, [debouncedMouse, elementOfInterest, pathname]);
 
     useAnimationFrame(render);
 
