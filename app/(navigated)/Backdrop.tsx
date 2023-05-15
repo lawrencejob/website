@@ -96,6 +96,21 @@ export default function Backdrop({ }) {
 
         }
 
+        const selection = window.getSelection();
+
+        // if the mouse is over something interesting, draw a rectangle for it
+        if (selection && selection.rangeCount > 0) {
+            ctx.fillStyle = '#ffe13a';
+            ctx.beginPath();
+            //ctx.rect(mouse[0] / x, mouse[1] / y, 100 / x, 100 / y);
+            const rects = selection.getRangeAt(0).getClientRects();
+            for (const rect of rects) {
+                const { x: eX, y: eY, width, height } = rect;
+                ctx.fillRect(eX / x, eY / y, width / x, height / y);
+            }
+
+        }
+
         const dreamColors = [
             'rgba(255,255,255,0.005)',
             'rgba(255,255,255,0.01)',

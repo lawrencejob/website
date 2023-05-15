@@ -1,6 +1,4 @@
-main.main {
-    background-color: rgba(0, 0, 0, 0.4);
-}
+main.main {}
 
 .container {
     max-width: 800px;
@@ -8,8 +6,12 @@ main.main {
 }
 
 .articleMain {
-    background-color: rgba(0, 0, 0, 0.3);
     padding: 0 20px;
+
+    ::selection {
+        color: black;
+        background-color: #ffe13a;
+    }
 
     .article {
         max-width: 800px;
