@@ -25,12 +25,7 @@ export function LinkSection({ children, startsWith, title }: Props) {
         show = pathname == "/";
     }
 
-    const backButton = pathname !== "/"
-        ? <><Link href="/"><Image src="/icon-back.svg" alt="Back" width={14} height={8} className={styles.backIcon} /> Home</Link></>
-        : <></>;
-
     return show ? <div className={styles.section}>
-        {backButton}
         {title && <div><strong>{title}</strong></div>}
         {children}
     </div> : null;

@@ -17,35 +17,103 @@ $yellow: #ffe13a;
     }
 }
 
-@media screen and (max-width: 699px) {}
-
+strong.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    color: $yellow;
+    grid-area: breadcrumbs;
+}
 
 strong.myName {
-    display: block;
-    font-size: 24px;
+    grid-area: title;
     color: white;
-    font-weight: normal;
-    margin: 32px 0;
-    padding: 0 16px;
-}
 
-hr.hr {
-    border: none;
-    border-top: 1px dashed rgba(255, 255, 255, 0.5);
-    margin: 16px 16px;
-}
-
-a.homeLink {
-    display: block;
-    text-decoration: none;
-
-    padding: 8px 0;
-
-    .logo {
+    a {
         display: block;
-        margin: 0 16px;
+        color: inherit;
+        text-decoration: none;
     }
+}
 
+@media screen and (min-width: 700px) {
+
+    .homeLink {
+        display: grid;
+        text-decoration: none;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        margin: 0 16px;
+        padding: 32px 0;
+        gap: 16px;
+
+        grid-template-areas:
+            "logo"
+            "title"
+            "breadcrumbs";
+
+        .logo {
+            img {
+                display: block;
+            }
+
+            margin-bottom: 16px;
+        }
+
+        strong.myName {
+            display: block;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .breadcrumbs {
+            flex-wrap: wrap;
+        }
+
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+    }
+}
+
+
+@media screen and (max-width: 699px) {
+    .homeLink {
+        display: grid;
+        text-decoration: none;
+        gap: 8px 16px;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            "logo title"
+            "logo breadcrumbs";
+
+        margin: 4px;
+        align-items: center;
+
+        border: 1px solid white;
+        padding: 12px;
+
+        a.logo {
+            display: block;
+            grid-area: logo;
+            align-self: stretch;
+        }
+
+        strong.myName {
+            align-self: end;
+            font-size: 1.2em;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        strong.breadcrumbs {
+            align-self: start;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
 }
 
 nav.nav {
