@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./backdrop.module.scss";
-import useAnimationFrame from "@/utils/use-animation-frame";
+import { useAnimationFrame } from "framer-motion";
 
 import { createNoise3D } from 'simplex-noise';
 import { usePathname } from "next/navigation";
