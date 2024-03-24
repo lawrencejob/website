@@ -5,6 +5,14 @@ import Link from "next/link";
 import Backdrop from "./Backdrop";
 import { LinkSection } from "./LinkSection";
 import Breadcrumbs from "./Breadcrumbs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: {
+        absolute: "Lawrence Job",
+        template: "%s | Lawrence Job"
+    }
+}
 
 export default function Layout({ children }: PropsWithChildren) {
     return (
@@ -15,7 +23,7 @@ export default function Layout({ children }: PropsWithChildren) {
                     <div className={styles.sticky}>
                         <div className={styles.homeLink}>
                             <Link className={styles.logo} href="/">
-                                <Image alt="Job logo" src="/job-logo.svg" width={64} height={64} />
+                                <Image alt="Job logo" src="/job-logo.svg" width={64} height={64} priority />
                             </Link>
                             <strong className={styles.myName}><Link href="/">Lawrence Job</Link></strong>
                             <strong className={styles.breadcrumbs}><Breadcrumbs /></strong>

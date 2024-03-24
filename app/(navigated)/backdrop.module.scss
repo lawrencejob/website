@@ -1,3 +1,49 @@
+@property --gap {
+    syntax: '<percentage>';
+    /* its type */
+    inherits: false;
+    initial-value: 10%;
+    /* the initial value */
+}
+
+@property --size {
+    syntax: '<percentage>';
+    /* its type */
+    inherits: false;
+    initial-value: 10%;
+    /* the initial value */
+}
+
+@property --colorR {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #FF0000;
+}
+
+@property --colorG {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #00FF00;
+}
+
+@property --colorB {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #0000FF;
+}
+
+@property --periodX {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 15px;
+}
+
+@property --periodY {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 10px;
+}
+
 .background,
 .foreground,
 .canvas {
@@ -24,7 +70,19 @@
 }
 
 .foreground {
-    background-image: linear-gradient(black 10px, transparent 10px), linear-gradient(to right, black 6px, transparent 6px);
-    background-size: 11px 11px;
+    --gap: 10%;
+    transition: --gap 0.3s, --periodX 0.3s, --periodY -0.3s;
+
+    &.test {
+        --gap: 33%;
+        --periodX: 20px;
+    }
+
+    // background-image: linear-gradient(black 10px, transparent 10px),
+    // linear-gradient(to right, black 6px, transparent 6px);
+    background-image: linear-gradient(to right, black 50%, transparent 50%),
+    linear-gradient(180deg, var(--colorR) var(--gap), var(--colorG) var(--gap), calc(var(--gap) * 2), var(--colorB) calc(var(--gap) * 2), calc(var(--gap) * 3), black calc(var(--gap) * 3));
+    mix-blend-mode: multiply;
+    background-size: var(--periodX) var(--periodY);
     z-index: -10;
 }
