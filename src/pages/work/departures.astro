@@ -35,10 +35,12 @@ const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 ---
 
 <Layout title="Departures — Lawrence Job" crumbs={[{ label: "Work", href: "/work" }, { label: "Departures" }]}>
-	<!-- Quote hero — the sentence that started it all, over a faint transit map -->
-	<section class="relative overflow-hidden bg-card">
+	<!-- Quote hero — the sentence that started it all, over a faint transit map.
+	     Breaks out of the 1440px site wrapper to run the full viewport width;
+	     the quote itself stays aligned to the wrapper's grid. -->
+	<section class="relative mx-[calc(50%-50vw)] overflow-hidden bg-card">
 		<canvas id="transit-map" class="absolute inset-0 block h-full w-full" aria-hidden="true"></canvas>
-		<div class:list={["relative py-[clamp(80px,11vw,150px)]", pagePad]}>
+		<div class:list={["relative mx-auto max-w-[1440px] py-[clamp(80px,11vw,150px)]", pagePad]}>
 			<blockquote class="max-w-[920px]">
 				<p
 					class="font-display text-[clamp(28px,4vw,52px)] leading-[1.18] font-medium tracking-[-0.02em] text-balance text-ink"
