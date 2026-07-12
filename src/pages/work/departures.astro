@@ -1,13 +1,195 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import PagePlaceholder from "../../components/PagePlaceholder.astro";
+import Card from "../../components/Card.astro";
+
+const sections = [
+	{ title: "Overview", blurb: "The problem, the motivation, and the product vision." },
+	{ title: "Design", blurb: "UX decisions, visual design, and why it had to be native." },
+	{ title: "Architecture", blurb: "Railway data sources, graph modelling, storage and real-time updates." },
+];
+
+const journal = [
+	{
+		date: "Mar 2024",
+		title: "Building a railway graph database",
+		blurb: "Why the railway is a graph, and what that means for storage.",
+	},
+	{ date: "Jun 2024", title: "Modelling station complexes", blurb: "One station is rarely one station." },
+	{ date: "Nov 2024", title: "Train joins and divides", blurb: "The timetable’s hardest edge cases." },
+	{ date: "Apr 2025", title: "Map rendering challenges", blurb: "Drawing a live railway without melting the GPU." },
+];
+
+const lessons = [
+	"Real-time data is a liability until you design for its failure modes.",
+	"The timetable is not the railway. Model reality, not the feed.",
+	"Going native was worth every trade-off it forced.",
+];
+
+// Fluid page padding per the Departures design: full-bleed card grids on
+// mobile, aligning with the 56px page margin on desktop.
+const pagePad = "px-[clamp(20px,5vw,56px)]";
+const bleed = "px-[clamp(0px,calc((100vw-720px)*0.16),56px)]";
+const sectionLabel = "text-[11px] tracking-[0.16em] uppercase text-ink-mute md:text-xs";
+const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 ---
 
 <Layout title="Departures — Lawrence Job" crumbs={[{ label: "Work", href: "/work" }, { label: "Departures" }]}>
-	<PagePlaceholder
-		eyebrow="Flagship · Native iOS"
-		title="Departures"
-		lede="A real-time app for the UK railway, built natively for iOS."
-		mediaLabel="app screenshot"
-	/>
+	<!-- Quote hero — the sentence that started it all, over a faint transit map -->
+	<section class="relative overflow-hidden bg-card">
+		<canvas id="transit-map" class="absolute inset-0 block h-full w-full" aria-hidden="true"></canvas>
+		<div class:list={["relative py-[clamp(80px,11vw,150px)]", pagePad]}>
+			<blockquote class="max-w-[920px]">
+				<p
+					class="font-display text-[clamp(28px,4vw,52px)] leading-[1.18] font-medium tracking-[-0.02em] text-balance text-ink"
+				>
+					“An advanced city is not one where even the poor use cars, but rather one where even the rich use public
+					transport.”
+				</p>
+				<footer class="mt-7 text-[15px] text-ink-mute">— Enrique Peñalosa</footer>
+			</blockquote>
+		</div>
+	</section>
+
+	<!-- Purpose -->
+	<section class:list={["max-w-[900px] pt-[clamp(56px,8vw,104px)] pb-[clamp(40px,6vw,72px)]", pagePad]}>
+		<p class="mb-5 text-[11px] tracking-[0.14em] uppercase text-copper md:text-xs">Flagship · Native iOS</p>
+		<h1 class="font-display text-[clamp(40px,5.5vw,68px)] leading-[1.02] font-semibold tracking-[-0.03em] text-ink">
+			Departures
+		</h1>
+		<p class="mt-6.5 max-w-[620px] text-[clamp(16px,1.5vw,19px)] leading-[1.7] text-pretty text-ink-soft">
+			I think public transport is one of the best things a society builds for itself. Departures is my contribution:
+			a native iOS app that makes the UK railway easier to use, built end-to-end — product, design, data and
+			engineering. This page documents how, honestly.
+		</p>
+	</section>
+
+	<!-- The project -->
+	<section>
+		<h2 class:list={[sectionLabel, "pb-1.5", pagePad]}>The project</h2>
+		<div class:list={["grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 pt-3 pb-2", bleed]}>
+			{
+				sections.map((s) => (
+					<Card href="#" title={s.title} class:list={["min-h-[250px]", cardPad]} titleClass="text-[28px]">
+						{s.blurb}
+					</Card>
+				))
+			}
+		</div>
+	</section>
+
+	<!-- Engineering journal -->
+	<section>
+		<div class:list={["flex items-baseline gap-4 pt-8 pb-1.5", pagePad]}>
+			<h2 class={sectionLabel}>Engineering journal</h2>
+			<span class="text-[13px] text-ink-mute opacity-70">In the order they happened</span>
+		</div>
+		<div class:list={["flex flex-col gap-2 pt-3 pb-2", bleed]}>
+			{
+				journal.map((entry) => (
+					<a
+						href="#"
+						class="flex flex-wrap items-baseline gap-x-7 gap-y-2 bg-card px-[clamp(20px,3vw,40px)] py-6.5 transition-colors duration-300 hover:bg-card-hover active:bg-card-active"
+					>
+						<span class="w-[84px] flex-none text-[13px] text-copper tabular-nums">{entry.date}</span>
+						<span class="min-w-[220px] flex-1">
+							<span class="block font-display text-[21px] font-semibold tracking-[-0.02em] text-ink">
+								{entry.title}
+							</span>
+							<span class="mt-1 block text-[14.5px] text-ink-mute">{entry.blurb}</span>
+						</span>
+						<span class="text-lg text-ink-soft" aria-hidden="true">
+							→
+						</span>
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<!-- Lessons learned -->
+	<section>
+		<h2 class:list={[sectionLabel, "pt-8 pb-1.5", pagePad]}>Lessons learned</h2>
+		<div class:list={["pt-3", bleed]}>
+			<div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-2">
+				{
+					lessons.map((lesson, i) => (
+						<div class:list={["bg-card", cardPad]}>
+							<p class="mb-3.5 text-[13px] text-copper tabular-nums">{String(i + 1).padStart(2, "0")}</p>
+							<p class="font-display text-[19px] leading-[1.45] font-medium tracking-[-0.01em] text-pretty text-ink">
+								{lesson}
+							</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
 </Layout>
+
+<script>
+	// Static, seeded "transit map" behind the quote: white lines + station dots
+	// on card grey. Horizontal/45-degree segments only, like a schematic
+	// railway diagram. Ported from the Departures.dc.html design component.
+	const SEED = 7;
+
+	function drawMap() {
+		const c = document.getElementById("transit-map") as HTMLCanvasElement | null;
+		if (!c) return;
+		const w = c.offsetWidth;
+		const h = c.offsetHeight;
+		if (!w || !h) return;
+		c.width = w;
+		c.height = h;
+		const ctx = c.getContext("2d");
+		if (!ctx) return;
+
+		// seeded RNG so the map is stable across renders
+		let s = SEED >>> 0;
+		const rnd = () => {
+			s = (s + 0x6d2b79f5) >>> 0;
+			let x = Math.imul(s ^ (s >>> 15), 1 | s);
+			x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+			return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+		};
+
+		const lines = 7 + Math.round(rnd() * 2);
+		for (let i = 0; i < lines; i++) {
+			const copper = i === 2;
+			let x = -40;
+			let y = h * (0.08 + 0.84 * rnd());
+			const stations: [number, number][] = [];
+			ctx.beginPath();
+			ctx.moveTo(x, y);
+			while (x < w + 40) {
+				const seg = 60 + rnd() * 180;
+				const dir = rnd();
+				if (dir < 0.5) {
+					x += seg; // horizontal
+				} else {
+					const dy = seg * 0.7 * (dir < 0.75 ? 1 : -1);
+					x += seg * 0.7; // 45 degrees
+					y = Math.max(14, Math.min(h - 14, y + dy));
+				}
+				ctx.lineTo(x, y);
+				if (rnd() < 0.4 && x < w) stations.push([x, y]);
+			}
+			ctx.strokeStyle = copper ? "rgba(184,115,51,0.13)" : "rgba(245,245,245,0.07)";
+			ctx.lineWidth = 1.5;
+			ctx.lineJoin = "round";
+			ctx.stroke();
+
+			for (const [sx, sy] of stations) {
+				ctx.beginPath();
+				ctx.arc(sx, sy, 3, 0, 6.2832);
+				ctx.fillStyle = "#1A1A1A";
+				ctx.fill();
+				ctx.strokeStyle = copper ? "rgba(184,115,51,0.35)" : "rgba(245,245,245,0.16)";
+				ctx.lineWidth = 1.2;
+				ctx.stroke();
+			}
+		}
+	}
+
+	drawMap();
+	window.addEventListener("resize", drawMap);
+</script>
