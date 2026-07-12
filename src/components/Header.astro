@@ -14,10 +14,12 @@ const { crumbs } = Astro.props;
 // title. Prepend a linked "Home" so the breadcrumb reads as a location.
 const trail = crumbs && crumbs.length === 1 ? [{ label: "Home", href: "/" }, ...crumbs] : crumbs;
 
+// TODO: Work and Thoughts are temporarily hidden while their content is still
+// placeholder. Re-enable each nav entry as its section goes live.
 const nav = [
 	{ label: "About", href: "/about" },
-	{ label: "Work", href: "/work" },
-	{ label: "Thoughts", href: "/thoughts" },
+	// { label: "Work", href: "/work" },
+	// { label: "Thoughts", href: "/thoughts" },
 	{ label: "Mentoring", href: "/mentoring" },
 ];
 ---
