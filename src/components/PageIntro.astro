@@ -1,0 +1,28 @@
+---
+// Content-page opening block: eyebrow, display title, lede. Fluid type per
+// the Departures design. Padding is the caller's responsibility.
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+	title: string;
+	eyebrow?: string;
+	lede?: string;
+	class?: string;
+}
+
+const { title, eyebrow, lede, class: className } = Astro.props;
+---
+
+<section class:list={["max-w-[900px]", className]}>
+	{eyebrow && <Eyebrow class="mb-5">{eyebrow}</Eyebrow>}
+	<h1
+		class="font-display text-[clamp(40px,5.5vw,68px)] leading-[1.02] font-semibold tracking-[-0.03em] text-balance text-ink"
+	>
+		{title}
+	</h1>
+	{
+		lede && (
+			<p class="mt-6.5 max-w-[620px] text-[clamp(16px,1.5vw,19px)] leading-[1.7] text-pretty text-ink-soft">{lede}</p>
+		)
+	}
+</section>
