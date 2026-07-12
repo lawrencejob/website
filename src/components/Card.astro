@@ -1,0 +1,32 @@
+---
+interface Props {
+	href: string;
+	title: string;
+	eyebrow?: string;
+	class?: string;
+	titleClass?: string;
+}
+
+const { href, title, eyebrow, class: className, titleClass } = Astro.props;
+---
+
+<a
+	href={href}
+	class:list={[
+		"flex flex-col justify-between gap-5 bg-card transition-colors duration-300 hover:bg-card-hover active:bg-card-active",
+		className,
+	]}
+>
+	<div>
+		{
+			eyebrow && (
+				<p class="mb-3 text-[11px] tracking-[0.14em] uppercase text-copper md:mb-4 md:text-xs">{eyebrow}</p>
+			)
+		}
+		<h3 class:list={["font-display font-semibold tracking-[-0.02em] text-ink", titleClass]}>{title}</h3>
+	</div>
+	<div class="flex items-end justify-between gap-4 md:gap-6">
+		<p class="text-sm leading-[1.55] text-ink-mute md:max-w-[460px] md:text-[15px]"><slot /></p>
+		<span class="text-lg text-ink-soft md:text-xl" aria-hidden="true">→</span>
+	</div>
+</a>

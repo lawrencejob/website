@@ -1,0 +1,31 @@
+---
+// Placeholder content-page body per design exploration 3c — swap out as real
+// page designs land.
+interface Props {
+	title: string;
+	eyebrow?: string;
+	lede?: string;
+	mediaLabel?: string;
+}
+
+const { title, eyebrow, lede, mediaLabel = "coming soon" } = Astro.props;
+---
+
+<section class="px-5 pt-12 pb-14 md:px-14 md:pt-20 md:pb-24">
+	{eyebrow && <p class="mb-3.5 text-[11px] tracking-[0.14em] uppercase text-copper md:mb-4 md:text-xs">{eyebrow}</p>}
+	<h1 class="font-display text-[40px] leading-[1.06] font-semibold tracking-[-0.025em] text-balance text-ink md:text-[56px] md:leading-[1.04] md:tracking-[-0.03em]">
+		{title}
+	</h1>
+	{
+		lede && (
+			<p class="mt-4 text-base leading-[1.6] text-pretty text-ink-soft md:mt-5 md:max-w-[580px] md:text-[19px] md:leading-[1.7]">
+				{lede}
+			</p>
+		)
+	}
+	<div
+		class="mt-8 flex h-[120px] items-center justify-center bg-[repeating-linear-gradient(45deg,#1a1a1a,#1a1a1a_6px,#1d1d1d_6px,#1d1d1d_12px)] font-mono text-[11px] text-ink-mute md:mt-10 md:h-[200px] md:max-w-[900px]"
+	>
+		{mediaLabel}
+	</div>
+</section>
