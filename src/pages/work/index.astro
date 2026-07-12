@@ -1,11 +1,82 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import PagePlaceholder from "../../components/PagePlaceholder.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import PageIntro from "../../components/PageIntro.astro";
+
+const projects = [
+	{
+		href: "/work/departures",
+		eyebrow: "Flagship · Native iOS",
+		title: "Departures",
+		titleClass: "text-[clamp(32px,4vw,46px)]",
+		blurb:
+			"A real-time app for the UK railway. The product thinking, the graph architecture, and a journal of the genuinely hard bits.",
+		sections: ["Overview", "Design", "Architecture", "Engineering journal", "Lessons learned"],
+		minH: "min-h-[320px]",
+	},
+	{
+		href: "/work/agentic-pipeline",
+		eyebrow: "Case study",
+		title: "Agentic Pipeline in Healthcare",
+		titleClass: "max-w-[640px] text-[clamp(28px,3.4vw,38px)] leading-[1.1]",
+		blurb:
+			"How I shipped a real product change with agents doing the typing — and me owning the requirements, architecture, risk and review.",
+		sections: ["Problem", "Human ownership", "Agentic workflow", "Results", "Reflection"],
+		minH: "min-h-[260px]",
+	},
+];
+
+// Same fluid rhythm as the Departures page: full-bleed cards on mobile,
+// aligning with the 56px page margin on desktop.
+const pagePad = "px-[clamp(20px,5vw,56px)]";
+const bleed = "px-[clamp(0px,calc((100vw-720px)*0.16),56px)]";
 ---
 
 <Layout title="Work — Lawrence Job" crumbs={[{ label: "Work" }]}>
-	<PagePlaceholder
+	<PageIntro
+		class:list={["pt-[clamp(56px,8vw,110px)] pb-[clamp(40px,6vw,64px)]", pagePad]}
 		title="Work"
-		lede="What I build — a flagship product and case studies from the interesting bits in between."
+		lede="Things I’ve actually built. Each one is written up properly — the decisions, the architecture, and what I’d do differently."
 	/>
+
+	<div class:list={["flex flex-col gap-2", bleed]}>
+		{
+			projects.map((project) => (
+				<a
+					href={project.href}
+					class:list={[
+						"tile flex flex-col justify-between gap-9 px-[clamp(20px,3.5vw,44px)] py-[clamp(28px,4vw,44px)]",
+						project.minH,
+					]}
+				>
+					<div>
+						<Eyebrow class="mb-4">{project.eyebrow}</Eyebrow>
+						<h2 class:list={["font-display font-semibold tracking-[-0.02em] text-ink", project.titleClass]}>
+							{project.title}
+						</h2>
+						<p class="mt-4 max-w-[560px] text-[clamp(15px,1.4vw,16.5px)] leading-[1.6] text-pretty text-ink-mute">
+							{project.blurb}
+						</p>
+					</div>
+					<div class="flex items-baseline justify-between gap-6 border-t border-hairline pt-4.5">
+						<span class="flex flex-wrap gap-x-3.5 gap-y-2 text-[13.5px] text-ink-mute">
+							{project.sections.map((section, i) => (
+								<>
+									{i > 0 && (
+										<span class="text-copper" aria-hidden="true">
+											·
+										</span>
+									)}
+									<span>{section}</span>
+								</>
+							))}
+						</span>
+						<span class="text-xl text-ink-soft" aria-hidden="true">
+							→
+						</span>
+					</div>
+				</a>
+			))
+		}
+	</div>
 </Layout>
