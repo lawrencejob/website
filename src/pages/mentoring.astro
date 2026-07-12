@@ -3,14 +3,13 @@ import Layout from "../layouts/Layout.astro";
 import SectionLabel from "../components/SectionLabel.astro";
 
 const topics = [
-	"Growing into staff engineering",
+	"Whether this industry is right for you — and which role fits",
+	"Finding your feet in a first role",
+	"Growing into senior and staff engineering",
 	"Technical leadership, with or without management",
 	"Architecture and systems thinking",
-	"Careers, and the occasional hard decision",
+	"Hard career decisions",
 ];
-
-// Flip to "full" when at capacity — mirrors the design's availability prop.
-const availability: "open" | "full" = "open";
 
 const col = "mx-auto max-w-[700px] px-5";
 const prose = "text-[17px] leading-[1.75] text-pretty text-ink-soft";
@@ -22,29 +21,49 @@ const prose = "text-[17px] leading-[1.75] text-pretty text-ink-soft";
 			Mentoring
 		</h1>
 		<p class="mt-6.5 text-[clamp(16.5px,1.6vw,19px)] leading-[1.7] text-pretty text-ink-soft">
-			I’ve been mentoring engineers for years — sometimes formally, mostly not. I keep doing it because I had good
-			mentors, and it made all the difference.
+			Over the years, people have asked me for advice — and that’s grown into informal mentoring. Engineers and product
+			people, from first role through to staff. I’ve been directly involved in the careers of more than thirty people,
+			and it’s some of the most fulfilling work I do.
 		</p>
 	</header>
 
 	<section class:list={[col, "pt-[clamp(40px,6vw,64px)]"]}>
+		<SectionLabel class="mb-4.5">Why I do this</SectionLabel>
+		<p class={prose}>
+			The first half of my career was not very purposeful. I trained as a computer systems engineer — making microchips —
+			and through a series of incidental choices, ended up making software. I made decisions one step at a time, and
+			while I was growing, there was a point where I couldn’t clearly see what was next. I was lucky: I met someone whose
+			advice took a while to sink in, and once it did, I could see my path clearly.
+		</p>
+		<p class:list={[prose, "mt-5"]}>
+			On one hand I’d like to pay this forward, but what I learned is that I really enjoy playing a role in people
+			advancing. Sometimes there’s a spark in a person they don’t even realise they have — turning that into a direction
+			is extremely fulfilling and I’m grateful for every opportunity to be part of that.
+		</p>
+	</section>
+
+	<section class:list={[col, "pt-[clamp(40px,6vw,64px)]"]}>
 		<SectionLabel class="mb-4.5">Who it’s for</SectionLabel>
 		<p class={prose}>
-			Two kinds of people tend to get the most out of this: people who are <span class="text-ink"
-				>new to product or engineering</span
-			> and finding their feet, and experienced engineers working out <span class="text-ink"
-				>the next step — to senior and beyond</span
-			>. Both are welcome, and you don’t need to arrive with the right questions. Working out what to ask is part of
-			it.
+			I want to make myself available to anyone considering <span class="text-ink"
+				>joining the product engineering discipline</span
+			> (technical or not) as well as experienced professionals working towards <span class="text-ink"
+				>senior and staff roles</span
+			>, or into technical leadership.
+		</p>
+		<p class:list={[prose, "mt-5"]}>
+			About half the people I’ve mentored are engineers; the other half work in product roles like design and
+			ownership. With AI changing how products get built, that distinction matters less than it used to — and getting
+			into the industry is more realistic than most people think.
 		</p>
 	</section>
 
 	<section class:list={[col, "pt-[clamp(40px,6vw,64px)]"]}>
 		<SectionLabel class="mb-4.5">What it looks like</SectionLabel>
 		<p class={prose}>
-			Usually a conversation every few weeks. Sometimes there’s a specific problem to work through; sometimes it’s
-			just taking stock. The agenda is yours — I’m there to ask questions, share what I’ve seen, and occasionally
-			disagree with you.
+			We meet 1:1 — usually in a café in the evening — and discuss your goals; once we have a direction, I will bring you
+			to an industry meetup. I’m in London; in person works best, but video is fine if you’re elsewhere. Things we tend
+			to talk about:
 		</p>
 		<ul class="mt-7 border-t border-hairline">
 			{
@@ -60,39 +79,15 @@ const prose = "text-[17px] leading-[1.75] text-pretty text-ink-soft";
 		</ul>
 	</section>
 
-	<section class:list={[col, "pt-[clamp(40px,6vw,64px)]"]}>
-		<SectionLabel class="mb-4.5">One or two at a time</SectionLabel>
-		<p class={prose}>
-			I keep it to one or two mentees at a time, so I can do it properly. If there’s no room when you ask, I’ll say so
-			honestly — and it’s never a bother to be asked.
-		</p>
-	</section>
-
 	<section class:list={[col, "pt-[clamp(40px,6vw,64px)] pb-[clamp(56px,8vw,96px)]"]}>
 		<SectionLabel class="mb-4.5">Getting in touch</SectionLabel>
 		<p class:list={[prose, "mb-5"]}>
-			The easiest way to reach me is LinkedIn. Tell me a little about where you are and what you’re working towards —
-			no need for anything formal.
+			Message me on LinkedIn — say where you are and what you’re working towards. I set aside a small amount of time
+			where I can focus on you, and right now I’m fairly full — but reach out anyway. If I can make it work, I will.
 		</p>
 
-		<div class="mb-5 flex items-center gap-2.5 text-sm text-ink-mute">
-			{
-				availability === "open" ? (
-					<>
-						<span class="h-[7px] w-[7px] flex-none bg-copper" aria-hidden="true" />
-						<span>Right now: I have space for one more.</span>
-					</>
-				) : (
-					<>
-						<span class="h-[7px] w-[7px] flex-none bg-ink-mute" aria-hidden="true" />
-						<span>Right now: I’m at capacity — but reach out anyway, and I’ll let you know when a spot opens.</span>
-					</>
-				)
-			}
-		</div>
-
 		<a
-			href="https://linkedin.com/lawrencejob"
+			href="https://linkedin.com/in/lawrencejob"
 			target="_blank"
 			rel="noopener"
 			class="tile flex items-center justify-between gap-6 px-[clamp(20px,3vw,36px)] py-7"
