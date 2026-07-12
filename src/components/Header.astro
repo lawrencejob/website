@@ -1,0 +1,70 @@
+---
+export interface Crumb {
+	label: string;
+	href?: string;
+}
+
+interface Props {
+	crumbs?: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+
+const nav = [
+	{ label: "About", href: "/about" },
+	{ label: "Work", href: "/work" },
+	{ label: "Thoughts", href: "/thoughts" },
+	{ label: "Mentoring", href: "/mentoring" },
+];
+---
+
+<header>
+	<!-- Mobile: no hamburger — the whole bar is Home -->
+	<a
+		href="/"
+		class="flex items-center justify-between border-b border-hairline px-5 py-4.5 transition-colors duration-300 hover:bg-card-hover active:bg-card-active md:hidden"
+	>
+		<span class="font-display text-sm font-semibold tracking-[-0.01em] text-ink">Lawrence Job</span>
+		<span class="text-[17px] leading-none text-ink-mute" aria-hidden="true">⌂</span>
+	</a>
+
+	<!-- Desktop: name + full nav -->
+	<div class="hidden items-center justify-between border-b border-hairline px-14 py-6.5 md:flex">
+		<a href="/" class="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink">Lawrence Job</a>
+		<nav class="flex gap-9 text-[13px]">
+			{
+				nav.map((item) => (
+					<a href={item.href} class="text-ink-mute transition-colors duration-200 hover:text-ink">
+						{item.label}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+
+	{
+		crumbs && crumbs.length > 0 && (
+			<nav
+				aria-label="Breadcrumb"
+				class="flex items-baseline gap-2.5 border-b border-hairline px-5 py-3.5 text-[13px] md:px-14"
+			>
+				{crumbs.map((crumb, i) => (
+					<Fragment>
+						{i > 0 && (
+							<span class="text-copper" aria-hidden="true">
+								/
+							</span>
+						)}
+						{crumb.href ? (
+							<a href={crumb.href} class="text-ink-mute transition-colors duration-200 hover:text-ink">
+								{crumb.label}
+							</a>
+						) : (
+							<span class="text-ink">{crumb.label}</span>
+						)}
+					</Fragment>
+				))}
+			</nav>
+		)
+	}
+</header>

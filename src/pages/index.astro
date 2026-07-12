@@ -1,17 +1,118 @@
 ---
-// Blank starting point — ready to import a Claude Design project and build it out.
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+
+const sectionLabel = "px-5 pb-1.5 text-[11px] tracking-[0.16em] uppercase text-ink-mute md:px-14 md:pb-2 md:text-xs";
+
+// Mobile: full-bleed horizontal scroll row with snap; desktop: grid within page margins
+const scrollRow =
+	"no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pt-2 pb-1.5 md:grid md:overflow-visible md:px-14 md:pt-3 md:pb-2";
+const scrollCard = "flex-none snap-start md:w-auto";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Hello World</title>
-	</head>
-	<body>
-		<h1>Hello world</h1>
-	</body>
-</html>
+<Layout title="Lawrence Job — Connecting people, systems and ideas">
+	<!-- Hero -->
+	<section class="px-5 pt-14 pb-11 md:max-w-[900px] md:px-14 md:pt-29 md:pb-23">
+		<h1
+			class="font-display text-[38px] leading-[1.06] font-semibold tracking-[-0.025em] text-balance text-ink md:text-[76px] md:leading-[1.02] md:tracking-[-0.03em]"
+		>
+			Connecting people, systems and ideas.
+		</h1>
+		<p
+			class="mt-4.5 text-base leading-[1.6] text-pretty text-ink-soft md:mt-7.5 md:max-w-[580px] md:text-[19px] md:leading-[1.7]"
+		>
+			I’m Lawrence. I’m a <span class="text-ink">systems engineer</span> at heart, and I apply that mindset to <span
+				class="copper-mark">software</span
+			>, <span class="copper-mark">teams</span> and <span class="copper-mark">products</span>.<span
+				class="hidden md:inline">{" Here’s what I build, write and think about."}</span
+			>
+		</p>
+		<div class="mt-6.5 flex gap-6 text-xs tracking-[0.08em] uppercase md:mt-10 md:gap-8 md:text-[13px]">
+			<a href="#" class="border-b border-copper pb-[3px] text-ink">CV ↓</a>
+			<a href="#" class="pb-[3px] text-ink-mute transition-colors duration-200 hover:text-ink">LinkedIn ↗</a>
+			<a href="#" class="pb-[3px] text-ink-mute transition-colors duration-200 hover:text-ink">GitHub ↗</a>
+		</div>
+	</section>
+
+	<!-- Work -->
+	<section>
+		<h2 class={sectionLabel}>Work</h2>
+		<div class:list={[scrollRow, "md:grid-cols-[2fr_1fr]"]}>
+			<Card
+				href="/work/departures"
+				eyebrow="Flagship · Native iOS"
+				title="Departures"
+				class:list={[scrollCard, "min-h-[300px] w-[290px] px-5 py-7 md:px-10 md:py-9"]}
+				titleClass="text-[30px] md:text-[38px]"
+			>
+				A real-time app for the UK railway. The product thinking, the graph architecture, and a journal of the
+				genuinely hard bits.
+			</Card>
+			<Card
+				href="/work/agentic-pipeline"
+				eyebrow="Case study"
+				title="Agentic Pipeline in Healthcare"
+				class:list={[scrollCard, "min-h-[300px] w-[290px] px-5 py-7 md:px-10 md:py-9"]}
+				titleClass="text-[26px] leading-[1.12] md:text-[30px] md:leading-[1.1]"
+			>
+				How I shipped a real product change with agents doing the typing — and me owning everything else.
+			</Card>
+		</div>
+	</section>
+
+	<!-- Thoughts -->
+	<section class="pt-6 md:pt-8">
+		<h2 class={sectionLabel}>Thoughts</h2>
+		<div class:list={[scrollRow, "md:grid-cols-2"]}>
+			<Card
+				href="/thoughts/concordance"
+				title="Concordance"
+				class:list={[scrollCard, "min-h-[230px] w-[200px] px-5 py-6 md:px-10 md:py-8"]}
+				titleClass="text-[22px] md:text-[28px]"
+			>
+				Essays on ideas that look like they conflict, but don’t.<span class="hidden md:inline"
+					>{" Speed and quality. Product and engineering. AI and craft."}</span
+				>
+			</Card>
+			<Card
+				href="/thoughts/observations"
+				title="Observations"
+				class:list={[scrollCard, "min-h-[230px] w-[200px] px-5 py-6 md:px-10 md:py-8"]}
+				titleClass="text-[22px] md:text-[28px]"
+			>
+				<span class="md:hidden">Systems in everyday life — cities, transport, koi ponds.</span>
+				<span class="hidden md:inline"
+					>Shorter notes on systems in everyday life — cities, public transport, koi ponds.</span
+				>
+			</Card>
+			<Card
+				href="/thoughts/koi-ponds-and-cities"
+				title="Latest essay"
+				class:list={[scrollCard, "min-h-[230px] w-[200px] px-5 py-6 md:hidden"]}
+				titleClass="text-[22px]"
+			>
+				Koi ponds and cities.
+			</Card>
+		</div>
+	</section>
+
+	<!-- Mentoring -->
+	<section class="pt-6 md:pt-8">
+		<h2 class={sectionLabel}>Mentoring</h2>
+		<div class="pt-2 md:px-14 md:pt-3">
+			<a
+				href="/mentoring"
+				class="flex items-center justify-between gap-4 bg-card px-5 py-6 transition-colors duration-300 hover:bg-card-hover active:bg-card-active md:gap-6 md:px-10 md:py-7"
+			>
+				<div class="md:flex md:flex-wrap md:items-baseline md:gap-5">
+					<p class="font-display text-lg leading-[1.3] font-semibold tracking-[-0.02em] text-ink md:text-[22px]">
+						<span class="md:hidden">Working towards staff engineering?</span>
+						<span class="hidden md:inline">Working towards staff engineering or technical leadership?</span>
+					</p>
+					<p class="mt-1.5 text-sm text-ink-mute md:mt-0 md:text-[15px]">I mentor engineers — happy to talk.</p>
+				</div>
+				<span class="text-lg text-ink-soft md:text-xl" aria-hidden="true">→</span>
+			</a>
+		</div>
+	</section>
+</Layout>
