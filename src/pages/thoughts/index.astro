@@ -1,11 +1,67 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import PagePlaceholder from "../../components/PagePlaceholder.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import SectionLabel from "../../components/SectionLabel.astro";
+
+const groups = [
+	{
+		label: "Concordance",
+		desc: "Essays on ideas that look like they conflict, but don’t",
+		items: [
+			{ title: "Speed and quality", date: "Feb 2026", href: "/thoughts/2026-05-concordance" },
+			{ title: "AI and craftsmanship", date: "Jan 2026", href: "#" },
+			{ title: "Product and engineering", date: "Coming soon", href: "#" },
+		],
+	},
+	{
+		label: "Observations",
+		desc: "Notes on systems in everyday life",
+		items: [
+			{ title: "Koi ponds and cities", date: "Dec 2025", href: "/thoughts/2026-06-koi-pond" },
+			{ title: "What transport systems teach us about software", date: "Nov 2025", href: "#" },
+			{ title: "Public transport and society", date: "Oct 2025", href: "#" },
+		],
+	},
+];
+
+// Same fluid rhythm as the Work and Departures pages.
+const pagePad = "px-[clamp(20px,5vw,56px)]";
+const bleed = "px-[clamp(0px,calc((100vw-720px)*0.16),56px)]";
 ---
 
 <Layout title="Thoughts — Lawrence Job" crumbs={[{ label: "Thoughts" }]}>
-	<PagePlaceholder
+	<PageIntro
+		class:list={["pt-[clamp(56px,8vw,110px)] pb-[clamp(40px,6vw,64px)]", pagePad]}
 		title="Thoughts"
-		lede="Essays and shorter notes on systems — in software, in teams, and in everyday life."
+		lede="Projects show what I can build. This is where I try to show how I think."
 	/>
+
+	{
+		groups.map((group, groupIndex) => (
+			<section>
+				<div class:list={["flex items-baseline gap-4 pb-1.5", groupIndex > 0 && "pt-8", pagePad]}>
+					<SectionLabel>{group.label}</SectionLabel>
+					<span class="text-[13px] text-ink-mute opacity-70">{group.desc}</span>
+				</div>
+				<div class:list={["flex flex-col gap-2 pt-3 pb-2", bleed]}>
+					{group.items.map((item) => (
+						<a
+							href={item.href}
+							class="tile flex items-baseline justify-between gap-5 px-[clamp(20px,3vw,40px)] py-6"
+						>
+							<span class="font-display text-[clamp(18px,2vw,21px)] font-semibold tracking-[-0.02em] text-ink">
+								{item.title}
+							</span>
+							<span class="flex flex-none items-baseline gap-6">
+								<span class="text-[13px] text-ink-mute tabular-nums">{item.date}</span>
+								<span class="text-lg text-ink-soft" aria-hidden="true">
+									→
+								</span>
+							</span>
+						</a>
+					))}
+				</div>
+			</section>
+		))
+	}
 </Layout>
