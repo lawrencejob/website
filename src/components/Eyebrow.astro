@@ -1,0 +1,10 @@
+---
+// Copper uppercase kicker above titles.
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={["text-[11px] tracking-[0.14em] uppercase text-copper md:text-xs", className]}><slot /></p>

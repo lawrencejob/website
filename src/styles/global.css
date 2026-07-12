@@ -38,6 +38,18 @@
     );
   }
 
+  /* Interactive card surface — cards never move, hover/press is luminance only */
+  .tile {
+    background-color: var(--color-card);
+    transition: background-color 0.3s;
+    &:hover {
+      background-color: var(--color-card-hover);
+    }
+    &:active {
+      background-color: var(--color-card-active);
+    }
+  }
+
   .no-scrollbar {
     scrollbar-width: none;
     &::-webkit-scrollbar {

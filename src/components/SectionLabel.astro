@@ -1,0 +1,10 @@
+---
+// Muted uppercase section heading ("Work", "Thoughts", "Engineering journal").
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<h2 class:list={["text-[11px] tracking-[0.16em] uppercase text-ink-mute md:text-xs", className]}><slot /></h2>

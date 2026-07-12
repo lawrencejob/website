@@ -1,6 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import SectionLabel from "../../components/SectionLabel.astro";
 
 const sections = [
 	{ title: "Overview", blurb: "The problem, the motivation, and the product vision." },
@@ -29,7 +31,6 @@ const lessons = [
 // mobile, aligning with the 56px page margin on desktop.
 const pagePad = "px-[clamp(20px,5vw,56px)]";
 const bleed = "px-[clamp(0px,calc((100vw-720px)*0.16),56px)]";
-const sectionLabel = "text-[11px] tracking-[0.16em] uppercase text-ink-mute md:text-xs";
 const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 ---
 
@@ -51,21 +52,16 @@ const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 	</section>
 
 	<!-- Purpose -->
-	<section class:list={["max-w-[900px] pt-[clamp(56px,8vw,104px)] pb-[clamp(40px,6vw,72px)]", pagePad]}>
-		<p class="mb-5 text-[11px] tracking-[0.14em] uppercase text-copper md:text-xs">Flagship · Native iOS</p>
-		<h1 class="font-display text-[clamp(40px,5.5vw,68px)] leading-[1.02] font-semibold tracking-[-0.03em] text-ink">
-			Departures
-		</h1>
-		<p class="mt-6.5 max-w-[620px] text-[clamp(16px,1.5vw,19px)] leading-[1.7] text-pretty text-ink-soft">
-			I think public transport is one of the best things a society builds for itself. Departures is my contribution:
-			a native iOS app that makes the UK railway easier to use, built end-to-end — product, design, data and
-			engineering. This page documents how, honestly.
-		</p>
-	</section>
+	<PageIntro
+		class:list={["pt-[clamp(56px,8vw,104px)] pb-[clamp(40px,6vw,72px)]", pagePad]}
+		eyebrow="Flagship · Native iOS"
+		title="Departures"
+		lede="I think public transport is one of the best things a society builds for itself. Departures is my contribution: a native iOS app that makes the UK railway easier to use, built end-to-end — product, design, data and engineering. This page documents how, honestly."
+	/>
 
 	<!-- The project -->
 	<section>
-		<h2 class:list={[sectionLabel, "pb-1.5", pagePad]}>The project</h2>
+		<SectionLabel class:list={["pb-1.5", pagePad]}>The project</SectionLabel>
 		<div class:list={["grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 pt-3 pb-2", bleed]}>
 			{
 				sections.map((s) => (
@@ -80,7 +76,7 @@ const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 	<!-- Engineering journal -->
 	<section>
 		<div class:list={["flex items-baseline gap-4 pt-8 pb-1.5", pagePad]}>
-			<h2 class={sectionLabel}>Engineering journal</h2>
+			<SectionLabel>Engineering journal</SectionLabel>
 			<span class="text-[13px] text-ink-mute opacity-70">In the order they happened</span>
 		</div>
 		<div class:list={["flex flex-col gap-2 pt-3 pb-2", bleed]}>
@@ -88,7 +84,7 @@ const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 				journal.map((entry) => (
 					<a
 						href="#"
-						class="flex flex-wrap items-baseline gap-x-7 gap-y-2 bg-card px-[clamp(20px,3vw,40px)] py-6.5 transition-colors duration-300 hover:bg-card-hover active:bg-card-active"
+						class="tile flex flex-wrap items-baseline gap-x-7 gap-y-2 px-[clamp(20px,3vw,40px)] py-6.5"
 					>
 						<span class="w-[84px] flex-none text-[13px] text-copper tabular-nums">{entry.date}</span>
 						<span class="min-w-[220px] flex-1">
@@ -108,7 +104,7 @@ const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 
 	<!-- Lessons learned -->
 	<section>
-		<h2 class:list={[sectionLabel, "pt-8 pb-1.5", pagePad]}>Lessons learned</h2>
+		<SectionLabel class:list={["pt-8 pb-1.5", pagePad]}>Lessons learned</SectionLabel>
 		<div class:list={["pt-3", bleed]}>
 			<div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-2">
 				{

@@ -1,4 +1,7 @@
 ---
+// Linked card: optional eyebrow, display title, body (default slot), arrow.
+import Eyebrow from "./Eyebrow.astro";
+
 interface Props {
 	href: string;
 	title: string;
@@ -10,19 +13,9 @@ interface Props {
 const { href, title, eyebrow, class: className, titleClass } = Astro.props;
 ---
 
-<a
-	href={href}
-	class:list={[
-		"flex flex-col justify-between gap-5 bg-card transition-colors duration-300 hover:bg-card-hover active:bg-card-active",
-		className,
-	]}
->
+<a href={href} class:list={["tile flex flex-col justify-between gap-5", className]}>
 	<div>
-		{
-			eyebrow && (
-				<p class="mb-3 text-[11px] tracking-[0.14em] uppercase text-copper md:mb-4 md:text-xs">{eyebrow}</p>
-			)
-		}
+		{eyebrow && <Eyebrow class="mb-3 md:mb-4">{eyebrow}</Eyebrow>}
 		<h3 class:list={["font-display font-semibold tracking-[-0.02em] text-ink", titleClass]}>{title}</h3>
 	</div>
 	<div class="flex items-end justify-between gap-4 md:gap-6">
