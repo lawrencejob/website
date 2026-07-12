@@ -30,7 +30,9 @@ const {
 	</head>
 	<body class="bg-base font-sans text-ink antialiased">
 		<Header crumbs={crumbs} />
-		<main><slot /></main>
-		<Footer />
+		<div class="mx-auto max-w-[1440px]">
+			<main><slot /></main>
+			<Footer />
+		</div>
 	</body>
 </html>

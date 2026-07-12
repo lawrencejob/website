@@ -29,42 +29,46 @@ const nav = [
 	</a>
 
 	<!-- Desktop: name + full nav -->
-	<div class="hidden items-center justify-between border-b border-hairline px-14 py-6.5 md:flex">
-		<a href="/" class="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink">Lawrence Job</a>
-		<nav class="flex gap-9 text-[13px]">
-			{
-				nav.map((item) => (
-					<a href={item.href} class="text-ink-mute transition-colors duration-200 hover:text-ink">
-						{item.label}
-					</a>
-				))
-			}
-		</nav>
+	<div class="hidden border-b border-hairline md:block">
+		<div class="mx-auto flex max-w-[1440px] items-center justify-between px-14 py-6.5">
+			<a href="/" class="font-display text-[15px] font-semibold tracking-[-0.01em] text-ink">Lawrence Job</a>
+			<nav class="flex gap-9 text-[13px]">
+				{
+					nav.map((item) => (
+						<a href={item.href} class="text-ink-mute transition-colors duration-200 hover:text-ink">
+							{item.label}
+						</a>
+					))
+				}
+			</nav>
+		</div>
 	</div>
 
 	{
 		crumbs && crumbs.length > 0 && (
-			<nav
-				aria-label="Breadcrumb"
-				class="flex items-baseline gap-2.5 border-b border-hairline px-5 py-3.5 text-[13px] md:px-14"
-			>
-				{crumbs.map((crumb, i) => (
-					<Fragment>
-						{i > 0 && (
-							<span class="text-copper" aria-hidden="true">
-								/
-							</span>
-						)}
-						{crumb.href ? (
-							<a href={crumb.href} class="text-ink-mute transition-colors duration-200 hover:text-ink">
-								{crumb.label}
-							</a>
-						) : (
-							<span class="text-ink">{crumb.label}</span>
-						)}
-					</Fragment>
-				))}
-			</nav>
+			<div class="border-b border-hairline">
+				<nav
+					aria-label="Breadcrumb"
+					class="mx-auto flex max-w-[1440px] items-baseline gap-2.5 px-5 py-3.5 text-[13px] md:px-14"
+				>
+					{crumbs.map((crumb, i) => (
+						<Fragment>
+							{i > 0 && (
+								<span class="text-copper" aria-hidden="true">
+									/
+								</span>
+							)}
+							{crumb.href ? (
+								<a href={crumb.href} class="text-ink-mute transition-colors duration-200 hover:text-ink">
+									{crumb.label}
+								</a>
+							) : (
+								<span class="text-ink">{crumb.label}</span>
+							)}
+						</Fragment>
+					))}
+				</nav>
+			</div>
 		)
 	}
 </header>

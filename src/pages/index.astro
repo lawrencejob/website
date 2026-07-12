@@ -29,8 +29,7 @@ const scrollCard = "flex-none snap-start md:w-auto";
 		</p>
 		<div class="mt-6.5 flex gap-6 text-xs tracking-[0.08em] uppercase md:mt-10 md:gap-8 md:text-[13px]">
 			<a href="#" class="border-b border-copper pb-[3px] text-ink">CV ↓</a>
-			<a href="#" class="pb-[3px] text-ink-mute transition-colors duration-200 hover:text-ink">LinkedIn ↗</a>
-			<a href="#" class="pb-[3px] text-ink-mute transition-colors duration-200 hover:text-ink">GitHub ↗</a>
+			<a href="https://linkedin.com/lawrencejob" class="pb-[3px] text-ink-mute transition-colors duration-200 hover:text-ink">LinkedIn ↗</a>
 		</div>
 	</section>
 
@@ -63,9 +62,9 @@ const scrollCard = "flex-none snap-start md:w-auto";
 	<!-- Thoughts -->
 	<section class="pt-6 md:pt-8">
 		<h2 class={sectionLabel}>Thoughts</h2>
-		<div class:list={[scrollRow, "md:grid-cols-2"]}>
+		<div class:list={[scrollRow, "md:grid-cols-3"]}>
 			<Card
-				href="/thoughts/concordance"
+				href="/thoughts/2026-05-concordance"
 				title="Concordance"
 				class:list={[scrollCard, "min-h-[230px] w-[200px] px-5 py-6 md:px-10 md:py-8"]}
 				titleClass="text-[22px] md:text-[28px]"
@@ -86,10 +85,10 @@ const scrollCard = "flex-none snap-start md:w-auto";
 				>
 			</Card>
 			<Card
-				href="/thoughts/koi-ponds-and-cities"
+				href="/thoughts/2026-06-koi-pond"
 				title="Latest essay"
-				class:list={[scrollCard, "min-h-[230px] w-[200px] px-5 py-6 md:hidden"]}
-				titleClass="text-[22px]"
+				class:list={[scrollCard, "min-h-[230px] w-[200px] px-5 py-6 md:px-10 md:py-8"]}
+				titleClass="text-[22px] md:text-[28px]"
 			>
 				Koi ponds and cities.
 			</Card>
