@@ -1,13 +1,233 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import PagePlaceholder from "../../components/PagePlaceholder.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import SectionLabel from "../../components/SectionLabel.astro";
+
+const tocItems = [
+	{ id: "sec-0", label: "The false trade-off" },
+	{ id: "sec-1", label: "What speed buys" },
+	{ id: "sec-2", label: "What quality is" },
+	{ id: "sec-3", label: "The concordance" },
+];
+
+// Essay column typography
+const heading = "mb-4.5 font-display text-[26px] font-semibold tracking-[-0.02em] text-ink";
+const prose = "mb-5.5 text-[17px] leading-[1.75] text-pretty text-ink-soft";
+
+// Figures bleed to the viewport edge (capped at the 1440px site wrapper):
+// full-bleed both sides on mobile, right-only past the 952px column on desktop.
+const figBleed =
+	"my-[34px] mr-[min(-20px,calc((952px-min(100vw,1440px))/2))] ml-[min(0px,max(-20px,calc(min(100vw,1440px)-992px)))]";
+const figMedia =
+	"flex h-[clamp(260px,40vw,460px)] items-center justify-center bg-[repeating-linear-gradient(45deg,#1a1a1a,#1a1a1a_8px,#1d1d1d_8px,#1d1d1d_16px)]";
 ---
 
-<Layout title="Concordance — Lawrence Job" crumbs={[{ label: "Thoughts", href: "/thoughts" }, { label: "Concordance" }]}>
-	<PagePlaceholder
-		eyebrow="Essay · May 2026"
-		title="Concordance"
-		lede="Ideas that look like they conflict, but don’t. Speed and quality. Product and engineering. AI and craft."
-		mediaLabel="article coming soon"
-	/>
+<Layout
+	title="Speed and quality — Lawrence Job"
+	crumbs={[{ label: "Thoughts", href: "/thoughts" }, { label: "Concordance" }]}
+>
+	<!-- Reading progress -->
+	<div id="reading-progress" class="fixed top-0 left-0 z-[60] h-0.5 w-0 bg-copper" aria-hidden="true"></div>
+
+	<!-- Essay header -->
+	<header class="mx-auto max-w-[952px] px-5 pt-[clamp(56px,8vw,110px)] pb-[clamp(40px,5vw,64px)]">
+		<Eyebrow class="mb-5">Concordance · Essay 02</Eyebrow>
+		<h1
+			class="max-w-[800px] font-display text-[clamp(38px,5vw,64px)] leading-[1.04] font-semibold tracking-[-0.03em] text-balance text-ink"
+		>
+			Speed and quality
+		</h1>
+		<p class="mt-6 max-w-[640px] text-[clamp(17px,1.7vw,21px)] leading-[1.6] text-pretty text-ink-soft">
+			Teams are often asked to choose between moving fast and building well. I think that’s the wrong question — done
+			properly, each one buys you the other.
+		</p>
+		<div class="mt-7 flex gap-6 text-[13px] text-ink-mute">
+			<span>February 2026</span>
+			<span>·</span>
+			<span>6 min read</span>
+		</div>
+	</header>
+
+	<!-- Body: sticky contents + prose -->
+	<div class="mx-auto flex max-w-[952px] items-start gap-16 px-5">
+		<nav class="sticky top-16 hidden w-[210px] flex-none pt-2 min-[960px]:block" aria-label="Contents">
+			<p class="mb-4.5 text-[11px] tracking-[0.16em] uppercase text-ink-mute">Contents</p>
+			<div class="relative pl-4.5">
+				<div class="absolute top-0 bottom-0 left-0 w-px bg-[rgb(245_245_245/0.1)]" aria-hidden="true"></div>
+				<div
+					id="toc-bar"
+					class="absolute top-0 left-0 h-9 w-px bg-copper transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+					aria-hidden="true"
+				>
+				</div>
+				{
+					tocItems.map((item) => (
+						<button
+							type="button"
+							data-target={item.id}
+							class="toc-link flex h-9 w-full cursor-pointer items-center text-left text-[13.5px] text-ink-mute transition-colors duration-300"
+						>
+							{item.label}
+						</button>
+					))
+				}
+			</div>
+		</nav>
+
+		<article class="min-w-0 max-w-[660px] flex-1">
+			<section id="sec-0" class="pt-2">
+				<h2 class={heading}>The false trade-off</h2>
+				<p class={prose}>
+					The trade-off gets presented as a slider: push it one way and you ship sooner, push it the other and you
+					ship better. Almost every planning conversation I’ve sat in has this slider somewhere in the room, usually
+					unspoken. And almost every time, it’s describing something that isn’t really there.
+				</p>
+				<p class={prose}>
+					What the slider actually measures is <span class="text-ink">how much unfinished thinking</span> you’re
+					willing to push downstream. Cut corners and the thinking still has to happen — it just happens later, during
+					an incident, inside a review, or in the head of whoever inherits the code. Speed wasn’t bought. It was
+					borrowed.
+				</p>
+			</section>
+
+			<section id="sec-1" class="pt-9">
+				<h2 class={heading}>What speed actually buys</h2>
+				<p class={prose}>
+					Speed is not the absence of care. Speed is a short feedback loop. A team that ships in small pieces learns
+					what’s true about its product every few days, and truth is the raw material of quality. The slowest teams
+					I’ve worked with weren’t careful — they were waiting: for reviews, for environments, for permission.
+				</p>
+
+				<figure class={figBleed}>
+					<div class={figMedia}>
+						<span class="font-mono text-xs text-ink-mute">photograph — release board / team wall</span>
+					</div>
+					<figcaption class="flex max-w-[660px] items-baseline gap-4 px-5 pt-4">
+						<span class="flex-none text-xs tracking-[0.1em] text-copper tabular-nums">FIG. 01</span>
+						<span class="text-sm leading-[1.6] text-ink-mute">
+							<span class="font-medium text-ink-soft">Small releases, visible learning.</span>
+							{" Every card on this wall is a shipped decision — the loop between “we think” and “we know” measured in days, not quarters."}
+						</span>
+					</figcaption>
+				</figure>
+
+				<p class={prose}>
+					When the loop is short, mistakes are cheap. Cheap mistakes are the precondition for ambitious engineering —
+					you can afford to try the better design because being wrong costs you an afternoon, not a quarter.
+				</p>
+			</section>
+
+			<section id="sec-2" class="pt-9">
+				<h2 class={heading}>What quality actually is</h2>
+				<p class={prose}>
+					Quality isn’t polish, and it isn’t perfectionism. It’s the property of a system that lets you change it
+					without fear. Tests, types, boundaries, good names — they all serve the same end: the next change is easy.
+					Which is to say, quality is stored speed.
+				</p>
+				<p class={prose}>
+					This is why the slider is a lie. The teams that move fastest over a year are the ones whose codebase never
+					fights back. They didn’t choose quality over speed; they invested speed to make more of it.
+				</p>
+
+				<figure class={figBleed}>
+					<div class={figMedia}>
+						<span class="font-mono text-xs text-ink-mute">diagram — change-cost curve over time</span>
+					</div>
+					<figcaption class="flex max-w-[660px] items-baseline gap-4 px-5 pt-4">
+						<span class="flex-none text-xs tracking-[0.1em] text-copper tabular-nums">FIG. 02</span>
+						<span class="text-sm leading-[1.6] text-ink-mute">
+							<span class="font-medium text-ink-soft">Quality is stored speed.</span>
+							{" The cost of the next change, plotted over a year: the “slow, careful” team’s line stays flat while the “fast” team’s climbs until it stalls."}
+						</span>
+					</figcaption>
+				</figure>
+			</section>
+
+			<section id="sec-3" class="pt-9 pb-[clamp(56px,8vw,96px)]">
+				<h2 class={heading}>The concordance</h2>
+				<p class={prose}>
+					So the question is never “fast or good?”. The useful question is: <span class="copper-mark"
+						>which corner, if we cut it, will we have to re-cut forever?</span
+					> Some corners are genuinely free — cut those with a clear conscience. The rest are loans, and loans have interest.
+				</p>
+				<p class="text-[17px] leading-[1.75] text-pretty text-ink-soft">
+					Speed and quality aren’t opposite ends of a slider. They’re the same discipline, measured on different
+					days.
+				</p>
+			</section>
+		</article>
+	</div>
+
+	<!-- Keep reading -->
+	<section>
+		<SectionLabel class="mx-auto max-w-[952px] px-5 pb-2">Keep reading</SectionLabel>
+		<div
+			class="mx-auto grid max-w-[952px] grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 px-[min(20px,max(0px,calc((min(100vw,1440px)-912px)/2)))] pt-3"
+		>
+			<a href="#" class="tile flex min-h-[180px] flex-col justify-between gap-6 px-[clamp(20px,3vw,36px)] py-7">
+				<Eyebrow>Next in Concordance</Eyebrow>
+				<div class="flex items-end justify-between gap-4">
+					<span class="font-display text-2xl font-semibold tracking-[-0.02em] text-ink">Product and engineering</span>
+					<span class="text-xl text-ink-soft" aria-hidden="true">→</span>
+				</div>
+			</a>
+			<a
+				href="/thoughts"
+				class="tile flex min-h-[180px] flex-col justify-between gap-6 px-[clamp(20px,3vw,36px)] py-7"
+			>
+				<Eyebrow>Series</Eyebrow>
+				<div class="flex items-end justify-between gap-4">
+					<span class="font-display text-2xl font-semibold tracking-[-0.02em] text-ink">All Concordance essays</span>
+					<span class="text-xl text-ink-soft" aria-hidden="true">→</span>
+				</div>
+			</a>
+		</div>
+	</section>
 </Layout>
+
+<style>
+	.toc-link[aria-current="true"] {
+		color: var(--color-ink);
+	}
+</style>
+
+<script>
+	// Reading aids: copper progress bar at the top of the viewport, and a
+	// sticky table of contents whose copper bar tracks the section in view.
+	const progress = document.getElementById("reading-progress");
+	const bar = document.getElementById("toc-bar");
+	const links = [...document.querySelectorAll<HTMLButtonElement>(".toc-link")];
+	let active = -1;
+
+	function onScroll() {
+		let next = 0;
+		links.forEach((link, i) => {
+			const el = document.getElementById(link.dataset.target ?? "");
+			if (el && el.getBoundingClientRect().top < 180) next = i;
+		});
+
+		const doc = document.documentElement;
+		const max = doc.scrollHeight - window.innerHeight;
+		if (progress) progress.style.width = `${(max > 0 ? Math.min(1, window.scrollY / max) * 100 : 0).toFixed(2)}%`;
+
+		// The last heading may never cross the activation threshold on short
+		// viewports — treat reaching the bottom as reaching the last section.
+		if (max > 0 && window.scrollY >= max - 2) next = links.length - 1;
+
+		if (next !== active) {
+			active = next;
+			if (bar) bar.style.transform = `translateY(${active * 36}px)`;
+			links.forEach((link, i) => link.setAttribute("aria-current", i === active ? "true" : "false"));
+		}
+	}
+
+	links.forEach((link) => {
+		link.addEventListener("click", () => {
+			const el = document.getElementById(link.dataset.target ?? "");
+			if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+		});
+	});
+
+	window.addEventListener("scroll", onScroll, { passive: true });
+	onScroll();
+</script>
