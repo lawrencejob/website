@@ -10,6 +10,10 @@ interface Props {
 
 const { crumbs } = Astro.props;
 
+// On top-level pages the trail is a single crumb, which just repeats the page
+// title. Prepend a linked "Home" so the breadcrumb reads as a location.
+const trail = crumbs && crumbs.length === 1 ? [{ label: "Home", href: "/" }, ...crumbs] : crumbs;
+
 const nav = [
 	{ label: "About", href: "/about" },
 	{ label: "Work", href: "/work" },
@@ -45,13 +49,13 @@ const nav = [
 	</div>
 
 	{
-		crumbs && crumbs.length > 0 && (
+		trail && trail.length > 0 && (
 			<div class="border-b border-hairline">
 				<nav
 					aria-label="Breadcrumb"
 					class="mx-auto flex max-w-[1440px] items-baseline gap-2.5 px-5 py-3.5 text-[13px] md:px-14"
 				>
-					{crumbs.map((crumb, i) => (
+					{trail.map((crumb, i) => (
 						<Fragment>
 							{i > 0 && (
 								<span class="text-copper" aria-hidden="true">
