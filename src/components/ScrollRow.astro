@@ -1,0 +1,19 @@
+---
+// Card row: full-bleed horizontal snap-scroll on mobile, grid within page
+// margins on desktop. Pass the desktop column layout via class, e.g.
+// "md:grid-cols-[2fr_1fr]". Children handle their own width/snap classes.
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+	class:list={[
+		"no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto pt-2 pb-1.5 md:grid md:overflow-visible md:px-14 md:pt-3 md:pb-2",
+		className,
+	]}
+>
+	<slot />
+</div>
