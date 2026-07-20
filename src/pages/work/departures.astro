@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Card from "../../components/Card.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import SectionLabel from "../../components/SectionLabel.astro";
+import { formatJournalDate, getJournalEntries } from "../../lib/departures-journal";
 
 const sections = [
 	{ title: "Overview", blurb: "The problem, the motivation, and the product vision." },
@@ -10,16 +11,7 @@ const sections = [
 	{ title: "Architecture", blurb: "Railway data sources, graph modelling, storage and real-time updates." },
 ];
 
-const journal = [
-	{
-		date: "Mar 2024",
-		title: "Building a railway graph database",
-		blurb: "Why the railway is a graph, and what that means for storage.",
-	},
-	{ date: "Jun 2024", title: "Modelling station complexes", blurb: "One station is rarely one station." },
-	{ date: "Nov 2024", title: "Train joins and divides", blurb: "The timetable’s hardest edge cases." },
-	{ date: "Apr 2025", title: "Map rendering challenges", blurb: "Drawing a live railway without melting the GPU." },
-];
+const journal = await getJournalEntries();
 
 const lessons = [
 	"Real-time data is a liability until you design for its failure modes.",
@@ -76,33 +68,37 @@ const cardPad = "px-[clamp(20px,3vw,40px)] py-[clamp(24px,3vw,36px)]";
 	</section>
 
 	<!-- Engineering journal -->
-	<section>
-		<div class:list={["flex items-baseline gap-4 pt-8 pb-1.5", pagePad]}>
-			<SectionLabel>Engineering journal</SectionLabel>
-			<span class="text-[13px] text-ink-mute opacity-70">In the order they happened</span>
-		</div>
-		<div class:list={["flex flex-col gap-2 pt-3 pb-2", bleed]}>
-			{
-				journal.map((entry) => (
-					<a
-						href="#"
-						class="tile flex flex-wrap items-baseline gap-x-7 gap-y-2 px-[clamp(20px,3vw,40px)] py-6.5"
-					>
-						<span class="w-[84px] flex-none text-[13px] text-copper tabular-nums">{entry.date}</span>
-						<span class="min-w-[220px] flex-1">
-							<span class="block font-display text-[21px] font-semibold tracking-[-0.02em] text-ink">
-								{entry.title}
+	{
+		journal.length > 0 && (
+			<section>
+				<div class:list={["flex items-baseline gap-4 pt-8 pb-1.5", pagePad]}>
+					<SectionLabel>Engineering journal</SectionLabel>
+					<span class="text-[13px] text-ink-mute opacity-70">In the order they happened</span>
+				</div>
+				<div class:list={["flex flex-col gap-2 pt-3 pb-2", bleed]}>
+					{journal.map((entry) => (
+						<a
+							href={`/work/departures/${entry.id}`}
+							class="tile flex flex-wrap items-baseline gap-x-7 gap-y-2 px-[clamp(20px,3vw,40px)] py-6.5"
+						>
+							<span class="w-[84px] flex-none text-[13px] text-copper tabular-nums">
+								{formatJournalDate(entry.data.date)}
 							</span>
-							<span class="mt-1 block text-[14.5px] text-ink-mute">{entry.blurb}</span>
-						</span>
-						<span class="text-lg text-ink-soft" aria-hidden="true">
-							→
-						</span>
-					</a>
-				))
-			}
-		</div>
-	</section>
+							<span class="min-w-[220px] flex-1">
+								<span class="block font-display text-[21px] font-semibold tracking-[-0.02em] text-ink">
+									{entry.data.title}
+								</span>
+								<span class="mt-1 block text-[14.5px] text-ink-mute">{entry.data.blurb}</span>
+							</span>
+							<span class="text-lg text-ink-soft" aria-hidden="true">
+								→
+							</span>
+						</a>
+					))}
+				</div>
+			</section>
+		)
+	}
 
 	<!-- Lessons learned -->
 	<section>
