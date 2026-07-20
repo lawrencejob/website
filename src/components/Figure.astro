@@ -1,0 +1,35 @@
+---
+// Numbered essay figure with the edge-bleed treatment from the thoughts
+// essays: full-bleed both sides on mobile, right-only past the 952px column
+// on desktop. Real media goes in the default slot; `label` renders the
+// striped placeholder block instead while media doesn't exist yet.
+interface Props {
+	n: number;
+	heading: string;
+	caption: string;
+	label?: string;
+}
+
+const { n, heading, caption, label } = Astro.props;
+---
+
+<figure
+	class="my-[34px] mr-[min(-20px,calc((952px-min(100vw,1440px))/2))] ml-[min(0px,max(-20px,calc(min(100vw,1440px)-992px)))]"
+>
+	{
+		label ? (
+			<div class="flex h-[clamp(260px,40vw,460px)] items-center justify-center bg-[repeating-linear-gradient(45deg,#1a1a1a,#1a1a1a_8px,#1d1d1d_8px,#1d1d1d_16px)]">
+				<span class="font-mono text-xs text-ink-mute">{label}</span>
+			</div>
+		) : (
+			<slot />
+		)
+	}
+	<figcaption class="flex max-w-[660px] items-baseline gap-4 px-5 pt-4">
+		<span class="flex-none text-xs tracking-[0.1em] text-copper tabular-nums">FIG. {String(n).padStart(2, "0")}</span>
+		<span class="text-sm leading-[1.6] text-ink-mute">
+			<span class="font-medium text-ink-soft">{heading}</span>
+			{" "}{caption}
+		</span>
+	</figcaption>
+</figure>

@@ -1,0 +1,233 @@
+---
+import { render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import SectionLabel from "../../../components/SectionLabel.astro";
+import { formatJournalDate, getJournalEntries } from "../../../lib/departures-journal";
+
+export async function getStaticPaths() {
+	const entries = await getJournalEntries();
+	return entries.map((entry, index) => ({
+		params: { slug: entry.id },
+		props: { entry, index, next: entries[index + 1] ?? null },
+	}));
+}
+
+const { entry, index, next } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const tocItems = headings.filter((h) => h.depth === 2).map((h) => ({ id: h.slug, label: h.text }));
+
+// ~220 wpm on the raw MDX body; close enough for a badge.
+const words = (entry.body ?? "").split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(words / 220));
+---
+
+<Layout
+	title={`${entry.data.title} — Lawrence Job`}
+	crumbs={[
+		{ label: "Work", href: "/work" },
+		{ label: "Departures", href: "/work/departures" },
+		{ label: entry.data.title },
+	]}
+>
+	<!-- Reading progress -->
+	<div id="reading-progress" class="fixed top-0 left-0 z-[60] h-0.5 w-0 bg-copper" aria-hidden="true"></div>
+
+	<!-- Entry header -->
+	<header class="mx-auto max-w-[952px] px-5 pt-[clamp(56px,8vw,110px)] pb-[clamp(40px,5vw,64px)]">
+		<Eyebrow class="mb-5">Engineering journal · Entry {String(index + 1).padStart(2, "0")}</Eyebrow>
+		<h1
+			class="max-w-[800px] font-display text-[clamp(38px,5vw,64px)] leading-[1.04] font-semibold tracking-[-0.03em] text-balance text-ink"
+		>
+			{entry.data.title}
+		</h1>
+		<p class="mt-6 max-w-[640px] text-[clamp(17px,1.7vw,21px)] leading-[1.6] text-pretty text-ink-soft">
+			{entry.data.blurb}
+		</p>
+		<div class="mt-7 flex gap-6 text-[13px] text-ink-mute">
+			<span>{formatJournalDate(entry.data.date)}</span>
+			<span>·</span>
+			<span>{readTime} min read</span>
+		</div>
+	</header>
+
+	<!-- Body: sticky contents + prose -->
+	<div class="mx-auto flex max-w-[952px] items-start gap-16 px-5">
+		{
+			tocItems.length > 0 && (
+				<nav class="sticky top-16 hidden w-[210px] flex-none pt-2 min-[960px]:block" aria-label="Contents">
+					<p class="mb-4.5 text-[11px] tracking-[0.16em] uppercase text-ink-mute">Contents</p>
+					<div class="relative pl-4.5">
+						<div class="absolute top-0 bottom-0 left-0 w-px bg-[rgb(245_245_245/0.1)]" aria-hidden="true" />
+						<div
+							id="toc-bar"
+							class="absolute top-0 left-0 h-9 w-px bg-copper transition-transform duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+							aria-hidden="true"
+						/>
+						{tocItems.map((item) => (
+							<button
+								type="button"
+								data-target={item.id}
+								class="toc-link flex h-9 w-full cursor-pointer items-center text-left text-[13.5px] text-ink-mute transition-colors duration-300"
+							>
+								{item.label}
+							</button>
+						))}
+					</div>
+				</nav>
+			)
+		}
+
+		<article class="journal-prose min-w-0 max-w-[660px] flex-1 pb-[clamp(56px,8vw,96px)]">
+			<Content />
+		</article>
+	</div>
+
+	<!-- Keep reading -->
+	<section>
+		<SectionLabel class="mx-auto max-w-[952px] px-5 pb-2">Keep reading</SectionLabel>
+		<div
+			class="mx-auto grid max-w-[952px] grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-2 px-[min(20px,max(0px,calc((min(100vw,1440px)-912px)/2)))] pt-3 pb-[clamp(40px,6vw,72px)]"
+		>
+			{
+				next && (
+					<a
+						href={`/work/departures/${next.id}`}
+						class="tile flex min-h-[180px] flex-col justify-between gap-6 px-[clamp(20px,3vw,36px)] py-7"
+					>
+						<Eyebrow>Next in the journal</Eyebrow>
+						<div class="flex items-end justify-between gap-4">
+							<span class="font-display text-2xl font-semibold tracking-[-0.02em] text-ink">{next.data.title}</span>
+							<span class="text-xl text-ink-soft" aria-hidden="true">
+								→
+							</span>
+						</div>
+					</a>
+				)
+			}
+			<a
+				href="/work/departures"
+				class="tile flex min-h-[180px] flex-col justify-between gap-6 px-[clamp(20px,3vw,36px)] py-7"
+			>
+				<Eyebrow>Case study</Eyebrow>
+				<div class="flex items-end justify-between gap-4">
+					<span class="font-display text-2xl font-semibold tracking-[-0.02em] text-ink">Back to Departures</span>
+					<span class="text-xl text-ink-soft" aria-hidden="true">→</span>
+				</div>
+			</a>
+		</div>
+	</section>
+</Layout>
+
+<style is:global>
+	/* Essay typography for rendered MDX, mirroring the thoughts essays. */
+	.journal-prose h2 {
+		margin: 36px 0 18px;
+		font-family: var(--font-display);
+		font-size: 26px;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		color: var(--color-ink);
+	}
+	.journal-prose > h2:first-child {
+		margin-top: 8px;
+	}
+	.journal-prose p {
+		margin-bottom: 22px;
+		font-size: 17px;
+		line-height: 1.75;
+		text-wrap: pretty;
+		color: var(--color-ink-soft);
+	}
+	.journal-prose strong {
+		font-weight: 500;
+		color: var(--color-ink);
+	}
+	.journal-prose a {
+		color: var(--color-copper);
+		text-underline-offset: 3px;
+	}
+	.journal-prose a:hover {
+		text-decoration: underline;
+	}
+	.journal-prose ul,
+	.journal-prose ol {
+		margin: 0 0 22px;
+		padding-left: 24px;
+		font-size: 17px;
+		line-height: 1.75;
+		color: var(--color-ink-soft);
+	}
+	.journal-prose li {
+		margin-bottom: 8px;
+	}
+	.journal-prose li::marker {
+		color: var(--color-ink-mute);
+	}
+	.journal-prose code {
+		padding: 2px 5px;
+		border-radius: 4px;
+		background: rgb(245 245 245 / 0.06);
+		font-size: 0.88em;
+	}
+	.journal-prose pre {
+		margin: 28px 0;
+		padding: 20px 24px;
+		border-radius: 8px;
+		font-size: 14px;
+		line-height: 1.65;
+		overflow-x: auto;
+		background-color: var(--color-card) !important;
+	}
+	.journal-prose pre code {
+		padding: 0;
+		background: none;
+		font-size: inherit;
+	}
+	.toc-link[aria-current="true"] {
+		color: var(--color-ink);
+	}
+</style>
+
+<script>
+	// Reading aids ported from the thoughts essays: copper progress bar at the
+	// top of the viewport, and a sticky TOC whose copper bar tracks the section
+	// in view. All elements are optional — stub entries have no TOC.
+	const progress = document.getElementById("reading-progress");
+	const bar = document.getElementById("toc-bar");
+	const links = [...document.querySelectorAll<HTMLButtonElement>(".toc-link")];
+	let active = -1;
+
+	function onScroll() {
+		let next = 0;
+		links.forEach((link, i) => {
+			const el = document.getElementById(link.dataset.target ?? "");
+			if (el && el.getBoundingClientRect().top < 180) next = i;
+		});
+
+		const doc = document.documentElement;
+		const max = doc.scrollHeight - window.innerHeight;
+		if (progress) progress.style.width = `${(max > 0 ? Math.min(1, window.scrollY / max) * 100 : 0).toFixed(2)}%`;
+
+		// The last heading may never cross the activation threshold on short
+		// viewports — treat reaching the bottom as reaching the last section.
+		if (max > 0 && window.scrollY >= max - 2) next = links.length - 1;
+
+		if (next !== active) {
+			active = next;
+			if (bar) bar.style.transform = `translateY(${active * 36}px)`;
+			links.forEach((link, i) => link.setAttribute("aria-current", i === active ? "true" : "false"));
+		}
+	}
+
+	links.forEach((link) => {
+		link.addEventListener("click", () => {
+			const el = document.getElementById(link.dataset.target ?? "");
+			if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+		});
+	});
+
+	window.addEventListener("scroll", onScroll, { passive: true });
+	onScroll();
+</script>
